@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			CharacterSet="1"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -272,6 +272,90 @@
 			</File>
 			<File
 				RelativePath=".\TypeID.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="JobManager"
+			>
+			<File
+				RelativePath=".\JobManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\JobManager.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Worker.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Worker.hpp"
+				>
+			</File>
+			<Filter
+				Name="ResourcePool"
+				>
+				<File
+					RelativePath=".\ResourcePool.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ResourcePool.hpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Assert"
+			>
+			<File
+				RelativePath=".\DebugDia.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\DebugDia.hpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="HashMap"
+			>
+			<File
+				RelativePath=".\HashCompare.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HashCompare.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\HashCompareTemplates.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\HashFunctions.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MurmurHash2A.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\stdint_superdyne.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SuperFastHash.cpp"
 				>
 			</File>
 		</Filter>
