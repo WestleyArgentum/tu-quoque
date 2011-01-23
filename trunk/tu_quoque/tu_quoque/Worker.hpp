@@ -9,10 +9,18 @@ struct Task;
 
 class Worker
 {
+    // Construction / Destruction -------
+public:
+    Worker ();
+    virtual ~Worker ();
+
+    virtual void VInit () = 0;
+
+
     // Job Manager -------
 public:
-    void Init ( unsigned id_ );
-    void DelegateTask ( Task* task );
+    void Init ();
+    virtual void DelegateTask ( Task* task ) = 0;
 
     int GetId () const  { return id; }
     void SetId ( int id_ )  { id = id_; }

@@ -12,6 +12,12 @@ class ResourcePool
 {
 public:
     ResourcePool ();
+    virtual ~ResourcePool ();
+
+    // Derived Pools -------
+    virtual void VInitialize () = 0;
+    virtual void VRelease () = 0;
+
 
     // Job Manager -------
 public:

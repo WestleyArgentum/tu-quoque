@@ -286,16 +286,8 @@
 				RelativePath=".\JobManager.hpp"
 				>
 			</File>
-			<File
-				RelativePath=".\Worker.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\Worker.hpp"
-				>
-			</File>
 			<Filter
-				Name="ResourcePool"
+				Name="Resources"
 				>
 				<File
 					RelativePath=".\ResourcePool.cpp"
@@ -305,6 +297,34 @@
 					RelativePath=".\ResourcePool.hpp"
 					>
 				</File>
+				<File
+					RelativePath=".\Worker.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Worker.hpp"
+					>
+				</File>
+				<Filter
+					Name="ThreadPool"
+					>
+					<File
+						RelativePath=".\ThreadPool.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ThreadPool.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ThreadWorker.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ThreadWorker.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter

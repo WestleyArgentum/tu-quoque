@@ -11,13 +11,20 @@ ResourcePool::ResourcePool() : manager(NULL)
 {}
 
 
+ResourcePool::~ResourcePool()
+{}
+
+
 void ResourcePool::Initialize( JobManager* manager_ )
 {
     manager = manager_;
+
+    // initialize the derived class
+    VInitialize();
 }
 
 
 void ResourcePool::Release()
 {
-
+    VRelease();
 }
