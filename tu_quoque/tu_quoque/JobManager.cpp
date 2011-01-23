@@ -16,18 +16,46 @@ JobManager::~JobManager()
 {}
 
 
+void JobManager::Init()
+{
+    // set up tasks
+    Reset();
+
+    // set up pools and workers
+    curr_worker_id = 1;
+    for ( ResourcePoolList::iterator it = resource_pools.begin(); it != resource_pools.end(); ++it )
+        (*it)->Initialize( this );
+}
+
+
+void JobManager::Reset()
+{
+    Lock lock ( mutex_tasks );
+
+    num_tasks = 0;
+    num_tasks_idle = 0;
+    num_tasks_remaining = 0;
+    last_task = 0;
+}
+
+
 // User Interface -----------------------------
 
 void JobManager::Run()
 {
-    Lock lock( mutex_tasks );
-
-    // distribute tasks to all the workers to get the ball rolling
-    while ( workers_available.size() && num_tasks_idle )
     {
-        DelegateTask( last_task++, workers_available.top() );
-        workers_available.pop();
+        Lock lock( mutex_tasks );
+
+        // distribute tasks to all the workers to get the ball rolling
+        while ( workers_available.size() && num_tasks_idle )
+        {
+            DelegateTask( last_task++, workers_available.top() );
+            workers_available.pop();
+        }
     }
+
+    // wait until all the tasks signal
+    WaitForMultipleObjects( num_tasks, task_events, TRUE, 0 );
 }
 
 
@@ -71,7 +99,7 @@ void JobManager::CompleteTask( unsigned id )
 void JobManager::DelegateTask( unsigned id, Worker* worker )
 {
     // NEED RECURSIVE LOCKS
-    //Lock lock( mutex_tasks );
+    Lock lock( mutex_tasks );
 
     ErrorIf( tasks[ id ].status == TaskInfo::TI_InProgress, "Error: Trying to delegate task that is already in progress." );
     ErrorIf( tasks[ id ].status == TaskInfo::TI_Complete, "Error: Trying to delegate task that is already complete." );
@@ -116,6 +144,8 @@ void JobManager::ResetTask( unsigned id )
 
 void JobManager::SignalWorkerAvailable( Worker* worker )
 {
+    ErrorIf( worker->GetId() < 1, "Error: Worker is invalid." );
+
     Lock lock( mutex_tasks );
 
     if ( num_tasks_idle )
@@ -135,7 +165,13 @@ void JobManager::SignalWorkerUnavailable( Worker* worker )
     if ( worker->job_id != -1 )      // reset the workers job if needed
         ResetTask( worker->job_id );
     else                             // otherwise set the workers id to invalid
-        worker->SetId( -1 ); 
+        worker->SetId( -1 );
+}
+
+
+void JobManager::RegisterWorker( Worker* worker )
+{
+    worker->SetId( curr_worker_id++ );
 }
 
 

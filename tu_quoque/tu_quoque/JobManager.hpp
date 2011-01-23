@@ -33,11 +33,18 @@ struct Task
 class JobManager
 {
     // Construction / Destruction -------
+public: 
     JobManager  ();
     ~JobManager ();
 
+    void Init ();
+
+private:
+    void Reset ();
+
 
     // User Interface -------
+public:
     void Run ();
 
     void Test_FillWithRandomCrap ();
@@ -64,17 +71,18 @@ private:
         TIStatus status;
 
         // unique id of the worker who is in charge of the associated task
-        unsigned worker_id;
+        int worker_id;
 
         // the actual task
         Task* task;
     };
 
-    TaskInfo tasks[ MAX_TASKS ];  // all the tasks for the current job
-    int num_tasks;                // the total number of tasks
-    int num_tasks_idle;           // used to efficiently hand out tasks to workers
-    int num_tasks_remaining;      // used to efficiently determine when we are done
-    int last_task;                // used to mark the last place we were in the task list
+    TaskInfo tasks[ MAX_TASKS ];      // all the tasks for the current job
+    HANDLE task_events[ MAX_TASKS ];  // 
+    int num_tasks;                    // the total number of tasks
+    int num_tasks_idle;               // used to efficiently hand out tasks to workers
+    int num_tasks_remaining;          // used to efficiently determine when we are done
+    int last_task;                    // used to mark the last place we were in the task list
     Mutex mutex_tasks;
 
     // Worker Management -------
@@ -83,7 +91,10 @@ private:
     void SignalWorkerAvailable   ( Worker* worker );
     void SignalWorkerUnavailable ( Worker* worker );
 
+    void RegisterWorker ( Worker* worker );
+
     std::priority_queue<Worker*> workers_available;
+    int curr_worker_id;
 
 
     // Resource Pool Management -------
