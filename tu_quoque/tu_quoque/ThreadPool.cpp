@@ -21,7 +21,7 @@ void ThreadPool::VInitialize()
     for ( int i = 0; i < num_threads; ++i )
     {
         workers.push_back( new ThreadWorker );
-        workers.back()->Init();
+        workers.back()->Init( manager );
     }
 }
 

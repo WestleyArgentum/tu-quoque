@@ -3,6 +3,7 @@
 // ThreadWorker.cpp
 
 #include "ThreadWorker.hpp"
+#include "JobManager.hpp"
 
 
 // TaskProcessorThread ********************
@@ -39,13 +40,13 @@ ThreadWorker::ThreadWorker()
 
 ThreadWorker::~ThreadWorker()
 {
-    tp_thread.Kill();
+    Kill();
 }
 
 
 void ThreadWorker::VInit()
 {
-    tp_thread.Wake();
+    Wake();
 }
 
 
@@ -53,5 +54,36 @@ void ThreadWorker::VInit()
 
 void ThreadWorker::DelegateTask( Task* task )
 {}
+
+
+// Active Object Interface ----------------
+
+void ThreadWorker::InitThread()
+{
+
+}
+
+
+void ThreadWorker::Run()
+{
+    manager->RegisterWorker( this );
+
+    while ( !isDying )
+    {
+        // Signal that this worker is available
+        if ( manager->SignalWorkerAvailable( this ) )
+        {
+            // wait for a new job if we were not given one
+            WaitForSingleObject( );
+        }
+    }
+
+}
+
+
+void ThreadWorker::FlushThread()
+{
+
+}
 
 // ----------------------------------------

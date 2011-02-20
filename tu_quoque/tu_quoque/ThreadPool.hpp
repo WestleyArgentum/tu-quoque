@@ -4,7 +4,11 @@
 
 #pragma once
 
+#include <vector>
+
 #include "ResourcePool.hpp"
+#include "ThreadWorker.hpp"
+
 
 class ThreadPool : public ResourcePool
 {
@@ -15,6 +19,7 @@ public:
 
     virtual void VInitialize ();
     virtual void VRelease ();
+
 
     // Workers -------
 private:

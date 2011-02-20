@@ -86,13 +86,12 @@ private:
     Mutex mutex_tasks;
 
     // Worker Management -------
-private:
-    friend class Worker;
-    void SignalWorkerAvailable   ( Worker* worker );
+public:
+    bool SignalWorkerAvailable   ( Worker* worker );  // returns true if a new job was issued
     void SignalWorkerUnavailable ( Worker* worker );
-
     void RegisterWorker ( Worker* worker );
 
+private:
     std::priority_queue<Worker*> workers_available;
     int curr_worker_id;
 

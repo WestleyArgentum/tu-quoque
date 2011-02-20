@@ -5,29 +5,25 @@
 #pragma once
 
 struct Task;
+class JobManager;
 
 
 class Worker
 {
-    // Construction / Destruction -------
 public:
     Worker ();
     virtual ~Worker ();
 
-    virtual void VInit () = 0;
+    virtual void VInit () = 0;  // Derived class initialization
+    void Init ( JobManager* manager_ );  // Base class init is called by Pool
 
-
-    // Job Manager -------
-public:
-    void Init ();
+    // DelegateTask does the necessary work to get a task going.
+    // It will be called by the manager.
     virtual void DelegateTask ( Task* task ) = 0;
 
-    int GetId () const  { return id; }
-    void SetId ( int id_ )  { id = id_; }
+public:
+    int id;  // This workers unique identifier
+    int job_id;  // This workers current task
+    JobManager* manager;  // This workers manager
 
-    int job_id;
-
-private:
-    int id;
-    // -------
 };
