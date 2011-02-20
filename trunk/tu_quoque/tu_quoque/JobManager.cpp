@@ -107,7 +107,7 @@ void JobManager::DelegateTask( unsigned id, Worker* worker )
     TaskInfo& task_info = tasks[ id ];
 
     task_info.status = TaskInfo::TI_InProgress;
-    task_info.worker_id = worker->GetId();
+    task_info.worker_id = worker->id;
     --num_tasks_idle;
 
     worker->DelegateTask( task_info.task );
@@ -129,7 +129,7 @@ void JobManager::ResetTask( unsigned id )
         worker = workers_available.top();
         workers_available.pop();
 
-        if ( worker->GetId() != -1 )
+        if ( worker->id != -1 )
         {
             DelegateTask( id, worker );
             return;
@@ -142,9 +142,9 @@ void JobManager::ResetTask( unsigned id )
 
 // Worker Management --------------------------
 
-void JobManager::SignalWorkerAvailable( Worker* worker )
+bool JobManager::SignalWorkerAvailable( Worker* worker )
 {
-    ErrorIf( worker->GetId() < 1, "Error: Worker is invalid." );
+    ErrorIf( worker->id < 1, "Error: Worker is invalid." );
 
     Lock lock( mutex_tasks );
 
@@ -165,13 +165,13 @@ void JobManager::SignalWorkerUnavailable( Worker* worker )
     if ( worker->job_id != -1 )      // reset the workers job if needed
         ResetTask( worker->job_id );
     else                             // otherwise set the workers id to invalid
-        worker->SetId( -1 );
+        worker->id = -1;
 }
 
 
 void JobManager::RegisterWorker( Worker* worker )
 {
-    worker->SetId( curr_worker_id++ );
+    worker->id = curr_worker_id++;
 }
 
 

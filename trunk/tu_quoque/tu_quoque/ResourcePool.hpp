@@ -24,7 +24,7 @@ public:
     void Initialize ( JobManager* manager_ );  // called upon addition to a manager
     void Release    ();                        // called upon removal from a manager
 
-private:
+protected:
     JobManager* manager;
     // -------
 

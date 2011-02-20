@@ -8,7 +8,7 @@
 #include "Worker.hpp"
 
 
-class TaskProcessorThread : public ActiveObject
+class TaskProcessorThread : public SD::ActiveObject
 {
 public:
     TaskProcessorThread ();
@@ -26,7 +26,7 @@ public:
 
 // *******
 
-class ThreadWorker : public Worker
+class ThreadWorker : public Worker, public SD::ActiveObject
 {
     // Construction / Destruction -------
 public:
@@ -35,14 +35,19 @@ public:
 
     virtual void VInit ();
 
+
     // Job Manager -------
     virtual void DelegateTask ( Task* task );
 
 
-    // Thread -------
-    TaskProcessorThread tp_thread;
+    // Active Object Interface -------
+public:
+    virtual void InitThread  ();
+    virtual void Run         ();
+    virtual void FlushThread ();
 
+
+    // Event Data
     // -------
-
 
 };
